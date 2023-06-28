@@ -1,0 +1,42 @@
+match: hud
+
+Functions:
+  # 如果单纯想要滚动,但不需要滚动条
+  # 可以删除[此处最后一行,preRender,\滚动条组件]
+  wheel: |-
+    界面变量.滚动值 = 界面变量.滚动值 + 方法.取滚轮值;
+    界面变量.滚动值 = 方法.min(0,界面变量.滚动值);
+    界面变量.滚动值 = 方法.max(-10,界面变量.滚动值);
+    滚动条.distanceY = 滚动条.maxDistanceY * 界面变量.滚动值/-10;
+  preRender: |-
+   局部变量.百分比 = 滚动条.distanceY / 滚动条.maxDistanceY;
+   界面变量.滚动值 = 局部变量.百分比 * -10;
+范围:
+  type: texture
+  x: 100
+  y: 50
+  width: 100
+  height: 150
+  texture: "255,255,255"
+  
+滚动条:
+  type: texture
+  x: 190
+  y: 50
+  width: 10
+  height: 20
+  texture: "0,0,0"
+  # 最大移动值
+  maxDistanceY: 130
+  
+组件:
+  type: label
+  x: 100
+  y: 200+界面变量.滚动值*20
+  texts: "§a喵喵咪呀"
+  scale: 2
+  # 限制区域,组件仅会在限制区域内显示,超出区域外的部分不会显示
+  #limitX: 0
+  #limitY: 50
+  #limitWidth: 9999
+  #limitHeight: 150
